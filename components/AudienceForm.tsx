@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { AudienceFormData } from '@/types/audience'
+import { supabase } from '@/lib/supabaseClient'
+import { mapToDatabase } from '@/lib/dbUtils'
 
 const AGE_RANGES = ['18-24', '25-34', '35-44', '45-54', '55-64', '65+']
 
@@ -59,10 +61,13 @@ export default function AudienceForm() {
     setIsSubmitting(true)
 
     try {
-      // TODO: Save to Supabase
-      console.log('Audience data:', formData)
+      const { data, error } = await supabase
+        .from('audiences')
+        .insert([mapToDatabase(formData)])
 
-      // For now, just redirect to concepts page
+      if (error) throw error
+      console.log('Audience data saved:', data)
+
       router.push('/concepts')
     } catch (error) {
       console.error('Error saving audience:', error)
