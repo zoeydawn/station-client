@@ -1,13 +1,13 @@
 export interface Audience {
-  id?: string
+  id: number
   name: string
-  ageRange: string
+  age_range: string
   location: string
   income: string
   interests: string[]
-  painPoints: string
+  pain_points: string
   goals: string
-  createdAt?: string
+  created_at: string
 }
 
 export interface AudienceFormData {
