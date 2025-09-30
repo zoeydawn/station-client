@@ -1,5 +1,5 @@
 export interface Audience {
-  id: number
+  id: string
   name: string
   age_range: string
   location: string

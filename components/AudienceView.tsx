@@ -39,13 +39,17 @@ export const AudienceView = ({ audience }: AudienceViewProps) => {
               </div>
             </div>
 
-            <div className="alert alert-warning py-2">
-              <strong>Pain Points:</strong> {audience.pain_points}
-            </div>
+            {!!audience.pain_points && (
+              <div className="alert alert-warning py-2">
+                <strong>Pain Points:</strong> {audience.pain_points}
+              </div>
+            )}
 
-            <div className="alert alert-success py-2">
-              <strong>Goals:</strong> {audience.goals}
-            </div>
+            {!!audience.goals && (
+              <div className="alert alert-success py-2">
+                <strong>Goals:</strong> {audience.goals}
+              </div>
+            )}
           </div>
         </div>
 
@@ -64,10 +68,15 @@ export const AudienceView = ({ audience }: AudienceViewProps) => {
                 <div key={concept.id} className="card bg-base-200 shadow-md">
                   <div className="card-body p-4">
                     <h4 className="card-title text-lg text-primary mb-3">
-                      {concept.headline}
+                      {concept.title}
                     </h4>
 
                     <div className="space-y-3">
+                      <div>
+                        <span className="font-semibold">Description:</span>
+                        <p className="text-sm mt-1">{concept.description}</p>
+                      </div>
+
                       <div>
                         <span className="font-semibold">
                           Value Proposition:
