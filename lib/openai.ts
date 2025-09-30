@@ -39,14 +39,15 @@ export async function generateMarketingConcept(
 **Goals**: ${goals}
 
 Please provide a structured marketing concept with:
-1. **Campaign Headline**: A compelling main message
-2. **Value Proposition**: How your product/service addresses their pain points and helps achieve their goals
-3. **Key Messages**: 3-4 core messages that resonate with this audience
-4. **Recommended Channels**: Best marketing channels to reach this demographic
-5. **Tone & Style**: Communication approach that fits their profile
-6. **Call-to-Action**: Specific action you want them to take
+1. **Title**: A compelling main message
+2. **Description**: A detailed overview
+3. **Value Proposition**: How your product/service addresses their pain points and helps achieve their goals
+4. **Key Messages**: 3-4 core messages that resonate with this audience
+5. **Recommended Channels**: Best marketing channels to reach this demographic
+6. **Tone & Style**: Communication approach that fits their profile
+7. **Call-to-Action**: Specific action you want them to take
 
-Format the response as JSON with these exact keys: headline, value_proposition, key_messages (array), channels (array), tone, call_to_action.`
+Format the response as JSON with these exact keys: title, description, value_proposition, key_messages (array), channels (array), tone, call_to_action.`
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
@@ -54,7 +55,7 @@ Format the response as JSON with these exact keys: headline, value_proposition, 
         {
           role: 'system',
           content:
-            'You are an expert marketing strategist. Always respond with valid JSON format.',
+            'You are an expert marketing strategist. Always respond with valid JSON format only - no markdown formatting, no code blocks, no additional text.',
         },
         {
           role: 'user',
