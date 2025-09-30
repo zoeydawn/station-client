@@ -18,28 +18,36 @@ export async function POST(request: NextRequest) {
 
   try {
     // generate marketing concept
+    // we do this first because there's no point in saving the audience if the concept generation fails
     const concept = await generateMarketingConcept(audience)
 
-    console.log('concept:', concept)
+    // save audience to Supabase
+    // we do it before saving the concept because we need the audience ID
+    const { data: audienceData, error: audienceError } = await supabase
+      .from('audiences')
+      .insert([audience])
+      .select()
+
+    if (audienceError) throw audienceError
+
+    const audienceId = audienceData[0].id
 
     // save concept to Supabase
     const { data: conceptData, error: conceptError } = await supabase
       .from('concepts')
-      .insert([concept])
+      .insert([{ ...concept, audience_id: audienceId }])
+      .select() // so we can return the new concept
 
     if (conceptError) throw conceptError
 
-    console.log('conceptData:', conceptData)
-
-    // Save audience to Supabase
-    const { data, error } = await supabase.from('audiences').insert([audience])
-
-    if (error) throw error
-
     // Successfully saved
-    return NextResponse.json({ message: 'Audience saved successfully', data })
+    return NextResponse.json({
+      message: 'Audience and concept saved successfully',
+      audience: audienceData[0],
+      concept: conceptData[0],
+    })
   } catch (error) {
-    console.error('Error saving audience:', error)
+    console.error('Error saving audience and concept:', error)
     return NextResponse.json(
       { message: 'Internal server error', error },
       { status: 500 },
