@@ -95,6 +95,7 @@ export default function AudienceForm() {
         <label className="label">
           <span className="label-text font-semibold">Audience Name</span>
         </label>
+        <br />
         <input
           type="text"
           placeholder="e.g., Tech-Savvy Millennials"
@@ -115,6 +116,7 @@ export default function AudienceForm() {
         <label className="label">
           <span className="label-text font-semibold">Age Range</span>
         </label>
+        <br />
         <select
           className="select select-bordered"
           value={formData.ageRange}
@@ -137,6 +139,7 @@ export default function AudienceForm() {
         <label className="label">
           <span className="label-text font-semibold">Location</span>
         </label>
+        <br />
         <input
           type="text"
           placeholder="e.g., Urban US, Rural Canada, Global"
@@ -154,6 +157,7 @@ export default function AudienceForm() {
         <label className="label">
           <span className="label-text font-semibold">Income Range</span>
         </label>
+        <br />
         <select
           className="select select-bordered"
           value={formData.income}
@@ -175,7 +179,7 @@ export default function AudienceForm() {
       <div className="form-control">
         <label className="label">
           <span className="label-text font-semibold">Interests</span>
-          <span className="label-text-alt">Select all that apply</span>
+          <span className="label-text-alt text-sm">Select all that apply</span>
         </label>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           {INTEREST_OPTIONS.map((interest) => (
@@ -200,6 +204,7 @@ export default function AudienceForm() {
         <label className="label">
           <span className="label-text font-semibold">Pain Points</span>
         </label>
+        <br />
         <textarea
           className="textarea textarea-bordered h-24"
           placeholder="What challenges or problems does this audience face?"
@@ -215,6 +220,7 @@ export default function AudienceForm() {
         <label className="label">
           <span className="label-text font-semibold">Goals & Aspirations</span>
         </label>
+        <br />
         <textarea
           className="textarea textarea-bordered h-24"
           placeholder="What does this audience want to achieve or aspire to?"
