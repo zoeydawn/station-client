@@ -75,6 +75,7 @@ export default function AudienceForm() {
       router.push('/concepts')
     } catch (error) {
       console.error('Error submitting form:', error)
+      // TODO: Handle error and display error message to client
     } finally {
       setIsSubmitting(false)
     }
