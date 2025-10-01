@@ -12,6 +12,7 @@ interface DemographicData {
   income: string
   pain_points: string
   goals: string
+  additional_context?: string
 }
 
 interface MarketingConcept {
@@ -27,8 +28,16 @@ export async function generateMarketingConcept(
   demographics: DemographicData,
 ): Promise<MarketingConcept> {
   try {
-    const { name, age_range, location, interests, income, pain_points, goals } =
-      demographics
+    const {
+      name,
+      age_range,
+      location,
+      interests,
+      income,
+      pain_points,
+      goals,
+      additional_context,
+    } = demographics
 
     const prompt = `Create a comprehensive marketing concept for the following target audience:
 
@@ -37,6 +46,7 @@ export async function generateMarketingConcept(
 **Interests**: ${interests.join(', ')}
 **Pain Points**: ${pain_points}
 **Goals**: ${goals}
+**Additional Context**: ${additional_context}
 
 Please provide a structured marketing concept with:
 1. **Title**: A compelling main message
@@ -46,6 +56,8 @@ Please provide a structured marketing concept with:
 5. **Recommended Channels**: Best marketing channels to reach this demographic
 6. **Tone & Style**: Communication approach that fits their profile
 7. **Call-to-Action**: Specific action you want them to take
+
+If *Additional Context* is provided, prioritize it when creating the concept and acknowledge it in the title and/or description. 
 
 Format the response as JSON with these exact keys: title, description, value_proposition, key_messages (array), channels (array), tone, call_to_action.`
 

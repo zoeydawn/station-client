@@ -21,20 +21,22 @@ export const AudienceView = ({ audience }: AudienceViewProps) => {
     try {
       setIsGenerating(true)
 
-      // const response = await fetch('/api/generate-concept', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     audienceId,
-      //     additionalData: additionalData[audienceId] || '',
-      //   }),
-      // })
+      const response = await fetch('/api/remix-concept', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          audienceId: audience.id,
+          additionalData: additionalData || '',
+        }),
+      })
 
-      // if (!response.ok) throw new Error('Failed to generate concept')
+      if (!response.ok) throw new Error('Failed to generate concept')
 
-      // const result = await response.json()
+      const result = await response.json()
+
+      console.log('result:', result)
 
       // Refresh the data to show the new concept
       // await fetchAudiencesWithConcepts()
