@@ -100,12 +100,22 @@ export const AudienceView = ({ audience }: AudienceViewProps) => {
 
         {/* Concepts Section */}
         <div>
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            Marketing Concepts
-            <div className="badge badge-secondary">
-              {audience.concepts?.length || 0}
-            </div>
-          </h3>
+          <div className="flex flex-row justify-between items-center mb-4 ">
+            <h3 className="text-xl font-semibold flex items-center gap-2">
+              Marketing Concepts
+              <div className="badge badge-secondary">
+                {audience.concepts?.length || 0}
+              </div>
+            </h3>
+
+            {/* new concept button */}
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => setModelOpen(true)}
+            >
+              Remix
+            </button>
+          </div>
 
           {audience.concepts && audience.concepts.length > 0 ? (
             <div className="space-y-4">
@@ -199,14 +209,6 @@ export const AudienceView = ({ audience }: AudienceViewProps) => {
             </div>
           )}
 
-          {/* new concept button */}
-          <button
-            className="btn btn-primary mt-4"
-            onClick={() => setModelOpen(true)}
-          >
-            New Concept
-          </button>
-
           {/* new concept modal */}
           <dialog
             className={`modal ${modelOpen ? 'modal-open' : ''}`}
@@ -223,7 +225,7 @@ export const AudienceView = ({ audience }: AudienceViewProps) => {
                   <label className="form-control w-full">
                     <div className="label">
                       <span className="label-text font-semibold">
-                        Additional context for new concept:
+                        Add additional context to remix a new concept:
                       </span>
                     </div>
                     <textarea
