@@ -1,10 +1,55 @@
+'use client'
+
 import { AudienceWithConcepts } from '@/types/concept'
+import { useState } from 'react'
 
 type AudienceViewProps = {
   audience: AudienceWithConcepts
 }
 
 export const AudienceView = ({ audience }: AudienceViewProps) => {
+  const [isGenerating, setIsGenerating] = useState<boolean>(false)
+  const [additionalData, setAdditionalData] = useState<string>('')
+  const [modelOpen, setModelOpen] = useState<boolean>(false)
+
+  const handleModalClose = () => {
+    setModelOpen(false)
+    setAdditionalData('')
+  }
+
+  const generateNewConcept = async () => {
+    try {
+      setIsGenerating(true)
+
+      // const response = await fetch('/api/generate-concept', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     audienceId,
+      //     additionalData: additionalData[audienceId] || '',
+      //   }),
+      // })
+
+      // if (!response.ok) throw new Error('Failed to generate concept')
+
+      // const result = await response.json()
+
+      // Refresh the data to show the new concept
+      // await fetchAudiencesWithConcepts()
+
+      // Clear the additional data input
+      setAdditionalData('')
+    } catch (error) {
+      console.error('Error generating concept:', error)
+      // You could add a toast notification here
+    } finally {
+      setIsGenerating(false)
+      handleModalClose()
+    }
+  }
+
   return (
     <div key={audience.id} className="card bg-base-100 shadow-xl">
       <div className="card-body">
@@ -153,6 +198,81 @@ export const AudienceView = ({ audience }: AudienceViewProps) => {
               </span>
             </div>
           )}
+
+          {/* new concept button */}
+          <button
+            className="btn btn-primary mt-4"
+            onClick={() => setModelOpen(true)}
+          >
+            New Concept
+          </button>
+
+          {/* new concept modal */}
+          <dialog
+            className={`modal ${modelOpen ? 'modal-open' : ''}`}
+            onClick={(e) => {
+              // Close when clicking backdrop
+              if (e.target === e.currentTarget) {
+                handleModalClose()
+              }
+            }}
+          >
+            <div className="modal-box">
+              <div className="mt-6 pt-4 border-t border-base-300">
+                <div className="space-y-3">
+                  <label className="form-control w-full">
+                    <div className="label">
+                      <span className="label-text font-semibold">
+                        Additional context for new concept:
+                      </span>
+                    </div>
+                    <textarea
+                      className="textarea textarea-bordered h-20 resize-none"
+                      placeholder="e.g., Focus on sustainability, target holiday season, emphasize premium quality..."
+                      value={additionalData}
+                      onChange={(e) => setAdditionalData(e.target.value)}
+                    />
+                  </label>
+                </div>
+              </div>
+              <div className="modal-action">
+                <button
+                  onClick={generateNewConcept}
+                  disabled={isGenerating || !additionalData}
+                  className={`btn btn-primary ${isGenerating ? 'loading' : ''}`}
+                >
+                  {isGenerating ? (
+                    <>
+                      <span className="loading loading-spinner loading-xs"></span>
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-4 h-4"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 4.5v15m7.5-7.5h-15"
+                        />
+                      </svg>
+                      Generate New Concept
+                    </>
+                  )}
+                </button>
+
+                <button className="btn" onClick={handleModalClose}>
+                  Close
+                </button>
+              </div>
+            </div>
+          </dialog>
         </div>
       </div>
     </div>
