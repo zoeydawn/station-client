@@ -5,16 +5,22 @@ import { useState } from 'react'
 
 type AudienceViewProps = {
   audience: AudienceWithConcepts
+  fetchAudiencesAction: () => Promise<void>
 }
 
-export const AudienceView = ({ audience }: AudienceViewProps) => {
+export const AudienceView = ({
+  audience,
+  fetchAudiencesAction,
+}: AudienceViewProps) => {
   const [isGenerating, setIsGenerating] = useState<boolean>(false)
   const [additionalData, setAdditionalData] = useState<string>('')
   const [modelOpen, setModelOpen] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false)
 
   const handleModalClose = () => {
     setModelOpen(false)
     setAdditionalData('')
+    setError(false)
   }
 
   const generateNewConcept = async () => {
@@ -39,16 +45,15 @@ export const AudienceView = ({ audience }: AudienceViewProps) => {
       console.log('result:', result)
 
       // Refresh the data to show the new concept
-      // await fetchAudiencesWithConcepts()
+      await fetchAudiencesAction()
 
-      // Clear the additional data input
-      setAdditionalData('')
+      // Clear the additional data and close the modal
+      handleModalClose()
     } catch (error) {
       console.error('Error generating concept:', error)
-      // You could add a toast notification here
+      setError(true)
     } finally {
       setIsGenerating(false)
-      handleModalClose()
     }
   }
 
@@ -239,6 +244,26 @@ export const AudienceView = ({ audience }: AudienceViewProps) => {
                   </label>
                 </div>
               </div>
+
+              {!!error && (
+                <div role="alert" className="alert alert-error mt-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 shrink-0 stroke-current"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span>Something went wrong! Please try again.</span>
+                </div>
+              )}
+
               <div className="modal-action">
                 <button
                   onClick={generateNewConcept}

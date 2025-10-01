@@ -90,7 +90,11 @@ export default function ConceptsPage() {
       ) : (
         <div className="space-y-6">
           {audiencesWithConcepts.map((audience) => (
-            <AudienceView audience={audience} key={audience.id} />
+            <AudienceView
+              audience={audience}
+              key={audience.id}
+              fetchAudiencesAction={fetchAudiencesWithConcepts}
+            />
           ))}
         </div>
       )}
